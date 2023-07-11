@@ -220,6 +220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9089711539798029692}
+  - component: {fileID: 8529251159503023667}
   m_Layer: 5
   m_Name: CurrencyInfo
   m_TagString: Untagged
@@ -249,3 +250,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8529251159503023667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7805562263845918844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0c20002ca00d4f4bba5bbcc4685c977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currencyImage: {fileID: 84014747964288941}
+  currencyText: {fileID: 5137634515457481149}

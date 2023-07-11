@@ -14,10 +14,17 @@ public class CurrencyButtonView : MonoBehaviour
 
     private void Awake()
     {
-        CurrencyButtonViewModel = new CurrencyButtonViewModel(productCurrencyPrice, currencyImage);
+        CurrencyButtonViewModel = new CurrencyButtonViewModel();
+        CurrencyButtonViewModel.OnInitialiseComplete += CurrencyButtonViewModel_OnInitialiseComplete;
         currencyButton.onClick.AddListener(() =>
         {
             CurrencyButtonViewModel.PurchaseButtonPressed();
         });    
+    }
+
+    private void CurrencyButtonViewModel_OnInitialiseComplete(object sender, System.EventArgs e)
+    {
+        productCurrencyPrice.text = CurrencyButtonViewModel.ProductCurrencyPrice;
+        currencyImage.sprite = CurrencyButtonViewModel.CurrencyImage;
     }
 }

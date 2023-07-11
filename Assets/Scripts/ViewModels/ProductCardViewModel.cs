@@ -11,13 +11,16 @@ public class ProductCardViewModel
     public event EventHandler<bool> onBuyStateChange;
     public event EventHandler<CurrencyPrice> onCreateCurrencyButton;
 
-    public ReactiveProperty<long> timeSeconds = new ReactiveProperty<long>();
+    public ReactiveProperty<long> TimeSeconds {get; private set;}   
 
     private readonly long productTimeSecond;
+
+    private long currentTime; 
 
     private IEnumerator timeUpdateCorountine;
     public ProductCardViewModel(ProductSO productSO)
     {
+        TimeSeconds = new ReactiveProperty<long>();
         this.productSO = productSO;
         productTimeSecond = productSO.timeMinutes * 60;
     }
@@ -26,6 +29,9 @@ public class ProductCardViewModel
 
     public void Init()
     {
+        //PlayerPrefs.DeleteAll();
+        //ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ShopModel.Instance.CurrencyList[0], 50);
+        //ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ShopModel.Instance.CurrencyList[1], 30);
 
         string productState = ServiceLocator.Instance.Get<IDataManager>().TryReadData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_STATE);
         string lastProductTime = ServiceLocator.Instance.Get<IDataManager>().TryReadData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_TIME);
@@ -42,7 +48,7 @@ public class ProductCardViewModel
 
         if (state == ProductState.Buy)
         {
-            if (timeSeconds.Value > 0 || productSO.timeMinutes == 0)
+            if (TimeSeconds.Value > 0 || productSO.timeMinutes == 0)
             {
                 BuyStateUpdate();
             }
@@ -69,7 +75,7 @@ public class ProductCardViewModel
 
     private void CheckTimeEnd()
     {
-        if(timeSeconds.Value <= 0 && productSO.timeMinutes > 0)
+        if(TimeSeconds.Value <= 0 && productSO.timeMinutes > 0)
         {
             ProductNotPurchase();
         }
@@ -80,11 +86,11 @@ public class ProductCardViewModel
         if(lastProductTime != 0)
         {
             long timeDiff = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - lastProductTime;
-            timeSeconds.Value = productTimeSecond - timeDiff;
+            TimeSeconds.Value = productTimeSecond - timeDiff;
         }
         else
         {
-            timeSeconds.Value = productTimeSecond;
+            TimeSeconds.Value = productTimeSecond;
         }
     }
 
@@ -100,9 +106,11 @@ public class ProductCardViewModel
 
     private IEnumerator Timer()
     {
-        while (timeSeconds.Value > 0)
+        while (TimeSeconds.Value > 0)
         {
-            timeSeconds.Value--; 
+            TimeSeconds.Value -= DateTimeOffset.UtcNow.ToUnixTimeSeconds() - currentTime;
+            //Debug.Log(TimeSeconds.Value);
+            currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             yield return new WaitForSeconds(1f);
         }
     }
@@ -132,7 +140,8 @@ public class ProductCardViewModel
         onBuyStateChange?.Invoke(this, true);
         if (productSO.timeMinutes > 0)
         {
-            timeSeconds.Subscribe(_ => CheckTimeEnd());
+            TimeSeconds.Subscribe(_ => CheckTimeEnd());
+            currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - 1;
             timeUpdateCorountine = Timer();
             ServiceLocator.Instance.Get<CoroutineRunner>().RunCoroutine(timeUpdateCorountine);
         }
@@ -142,7 +151,7 @@ public class ProductCardViewModel
     {
         onBuyStateChange?.Invoke(this, false);
         state = ProductState.NotBuy;
-        timeSeconds.Value = productTimeSecond;
+        TimeSeconds.Value = productTimeSecond;
         if (productSO.timeMinutes > 0)
         {
             if (timeUpdateCorountine != null)

@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class ShopModel : MonoBehaviour
 {
-    public const string PLAYER_PREFS_PRODUCT_STATE = "ProductState";
-    public const string PLAYER_PREFS_PRODUCT_TIME = "ProductTime";
+    [SerializeField] private List<CurrencySO> currencyList;
 
-    public IDataManager DataManager { get; private set; }
+    public const string PLAYER_PREFS_PRODUCT_STATE = "ProductState";
+    public const string PLAYER_PREFS_PRODUCT_TIME = "ProductTimePurchase";
+
+    public List<CurrencySO> CurrencyList { get { return currencyList; } }
 
     public static ShopModel Instance { get; private set; } 
 
-    public long lastTimeRun { get; private set; }
 
     private void Awake()
     {
         Instance = this;
-        DataManager = new PlayerPrefsManager();
     }
 }

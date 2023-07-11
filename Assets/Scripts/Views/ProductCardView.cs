@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProductView : MonoBehaviour
+public class ProductCardView : MonoBehaviour
 {
     [SerializeField] private ProductSO productSO;
     [SerializeField] private Transform notBuyView;
@@ -63,7 +63,7 @@ public class ProductView : MonoBehaviour
     {
         var obj = Instantiate(currencyButtonViewPrefab, currencyButtonsView);
         CurrencyButtonView currencyButtonView = obj.GetComponent<CurrencyButtonView>();
-        currencyButtonView.CurrencyButtonViewModel.Init(currencyPriceInfo.price, currencyPriceInfo.currency.currencyImage);
+        currencyButtonView.CurrencyButtonViewModel.Init(currencyPriceInfo, this);
     }
 
 }

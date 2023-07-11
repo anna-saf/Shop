@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDataManager 
+public interface IDataManager : IService
 {
     public string TryReadData(string key);
 

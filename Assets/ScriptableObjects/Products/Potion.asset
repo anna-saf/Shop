@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   productName: Potion
   productImage: {fileID: 1375740923, guid: 4be2b2d44d250ee42b80cd311728b13a, type: 3}
-  timeMinutes: 180
+  timeMinutes: 120
   currencyPrice:
   - currency: {fileID: 11400000, guid: ee8c8669ab30bac47978ea8c07002cbf, type: 2}
     price: 4

@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 1268389823465212733}
   - component: {fileID: 1091960581322465783}
   - component: {fileID: 7182514056101540681}
+  - component: {fileID: 423647445838161992}
   m_Layer: 5
   m_Name: CurrencyButton
   m_TagString: Untagged
@@ -279,6 +280,21 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &423647445838161992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381050847630666469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0eaef799597b5a644ac2cff58e633091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currencyButton: {fileID: 1091960581322465783}
+  productCurrencyPrice: {fileID: 6338532700879826709}
+  currencyImage: {fileID: 6027051383354569328}
 --- !u!1 &3189991255186542402
 GameObject:
   m_ObjectHideFlags: 0

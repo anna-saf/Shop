@@ -15,6 +15,8 @@ public class ProductCardViewModel
 
     private readonly long productTimeSecond;
 
+    private long currentTime; 
+
     private IEnumerator timeUpdateCorountine;
     public ProductCardViewModel(ProductSO productSO)
     {
@@ -26,6 +28,9 @@ public class ProductCardViewModel
 
     public void Init()
     {
+        //PlayerPrefs.DeleteAll();
+        //ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ShopModel.Instance.CurrencyList[0], 20);
+        //ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ShopModel.Instance.CurrencyList[1], 20);
 
         string productState = ServiceLocator.Instance.Get<IDataManager>().TryReadData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_STATE);
         string lastProductTime = ServiceLocator.Instance.Get<IDataManager>().TryReadData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_TIME);
@@ -102,7 +107,8 @@ public class ProductCardViewModel
     {
         while (timeSeconds.Value > 0)
         {
-            timeSeconds.Value--; 
+            timeSeconds.Value -= DateTimeOffset.UtcNow.ToUnixTimeSeconds() - currentTime;
+            currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             yield return new WaitForSeconds(1f);
         }
     }
@@ -118,6 +124,8 @@ public class ProductCardViewModel
                 ServiceLocator.Instance.Get<IDataManager>().WriteData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_TIME, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
                 ServiceLocator.Instance.Get<IDataManager>().WriteData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_STATE, state.ToString());
                 ServiceLocator.Instance.Get<GameCurrencyManager>().SubtractCurrency(currencyPriceInfo.currency, currencyPriceInfo.price);
+                Debug.Log(ServiceLocator.Instance.Get<GameCurrencyManager>().GetCurrencyInfo(ShopModel.Instance.CurrencyList[0]));
+                Debug.Log(ServiceLocator.Instance.Get<GameCurrencyManager>().GetCurrencyInfo(ShopModel.Instance.CurrencyList[1]));
             }
         }
         else
@@ -133,6 +141,7 @@ public class ProductCardViewModel
         if (productSO.timeMinutes > 0)
         {
             timeSeconds.Subscribe(_ => CheckTimeEnd());
+            currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - 1;
             timeUpdateCorountine = Timer();
             ServiceLocator.Instance.Get<CoroutineRunner>().RunCoroutine(timeUpdateCorountine);
         }

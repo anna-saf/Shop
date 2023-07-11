@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -6,23 +7,20 @@ using UnityEngine.UI;
 
 public class CurrencyButtonViewModel 
 {
-    private TextMeshProUGUI productCurrencyPrice;
-    private Image currencyImage;
+    public string ProductCurrencyPrice {  get; private set; }
+    public Sprite CurrencyImage { get; private set; }
     private ProductCardView productCardView;
     private CurrencyPrice currencyPriceInfo;
 
-    public CurrencyButtonViewModel(TextMeshProUGUI productCurrencyPrice, Image currencyImage)
-    {
-        this.productCurrencyPrice = productCurrencyPrice;
-        this.currencyImage = currencyImage;
-    }
+    public event EventHandler OnInitialiseComplete;
 
     public void Init(CurrencyPrice currencyPriceInfo, ProductCardView productCardView)
     {
         this.currencyPriceInfo = currencyPriceInfo;
-        productCurrencyPrice.text = currencyPriceInfo.price.ToString();
-        currencyImage.sprite = currencyPriceInfo.currency.currencyImage;
+        ProductCurrencyPrice = currencyPriceInfo.price.ToString();
+        CurrencyImage = currencyPriceInfo.currency.currencyImage;
         this.productCardView = productCardView;
+        OnInitialiseComplete?.Invoke(this, EventArgs.Empty);
     }
 
     public void PurchaseButtonPressed()

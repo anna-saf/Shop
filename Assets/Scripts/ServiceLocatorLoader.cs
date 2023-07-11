@@ -4,8 +4,8 @@ using UnityEngine;
 public class ServiceLocatorLoader : MonoBehaviour
 {
     [SerializeField] private CoroutineRunner coroutineRunner;
+    [SerializeField] private GameCurrencyManager gameCurrencyManager;
     private IDataManager dataManager;
-    private GameCurrencyManager gameCurrencyManager;
 
     private void Awake()
     {
@@ -16,7 +16,6 @@ public class ServiceLocatorLoader : MonoBehaviour
         dataManager = new PlayerPrefsManager();
         ServiceLocator.Instance.Register<IDataManager> (dataManager);
 
-        gameCurrencyManager = new GameCurrencyManager();
         ServiceLocator.Instance.Register<GameCurrencyManager>(gameCurrencyManager);
 
     }

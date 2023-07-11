@@ -23,7 +23,7 @@ public class ProductCardView : MonoBehaviour
         productImage.sprite = productSO.productImage;
         ProductCardViewModel.onBuyStateChange += ProductCardViewModel_onBuyStateChange;
         ProductCardViewModel.onCreateCurrencyButton += ProductCardViewModel_onCreateCurrencyButton; ;
-        ProductCardViewModel.timeSeconds.Subscribe(_ => UpdateTime(_));
+        ProductCardViewModel.TimeSeconds.Subscribe(_ => UpdateTime(_));
             
     }
 

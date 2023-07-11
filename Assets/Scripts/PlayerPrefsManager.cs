@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPrefsManager : IDataManager
+public class PlayerPrefsManager : IDataManager 
 {    
     public string TryReadData(string key)
     {
@@ -16,5 +16,8 @@ public class PlayerPrefsManager : IDataManager
     public void WriteData(string key, string value)
     {
         PlayerPrefs.SetString(key, value);
+        PlayerPrefs.Save();
     }
+
+
 }

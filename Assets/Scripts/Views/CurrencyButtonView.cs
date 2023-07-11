@@ -15,9 +15,9 @@ public class CurrencyButtonView : MonoBehaviour
     private void Awake()
     {
         CurrencyButtonViewModel = new CurrencyButtonViewModel(productCurrencyPrice, currencyImage);
-        /*currencyButton.onClick.AddListener(() =>
+        currencyButton.onClick.AddListener(() =>
         {
-
-        });*/    
+            CurrencyButtonViewModel.PurchaseButtonPressed();
+        });    
     }
 }

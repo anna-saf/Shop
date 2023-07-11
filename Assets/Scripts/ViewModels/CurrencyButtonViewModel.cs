@@ -8,6 +8,8 @@ public class CurrencyButtonViewModel
 {
     private TextMeshProUGUI productCurrencyPrice;
     private Image currencyImage;
+    private ProductCardView productCardView;
+    private CurrencyPrice currencyPriceInfo;
 
     public CurrencyButtonViewModel(TextMeshProUGUI productCurrencyPrice, Image currencyImage)
     {
@@ -15,9 +17,16 @@ public class CurrencyButtonViewModel
         this.currencyImage = currencyImage;
     }
 
-    public void Init(int currencyPrice, Sprite currencyImage)
+    public void Init(CurrencyPrice currencyPriceInfo, ProductCardView productCardView)
     {
-        productCurrencyPrice.text = currencyPrice.ToString();
-        this.currencyImage.sprite = currencyImage;
+        this.currencyPriceInfo = currencyPriceInfo;
+        productCurrencyPrice.text = currencyPriceInfo.price.ToString();
+        currencyImage.sprite = currencyPriceInfo.currency.currencyImage;
+        this.productCardView = productCardView;
+    }
+
+    public void PurchaseButtonPressed()
+    {
+        productCardView.ProductCardViewModel.PurchaseButtonPressed(currencyPriceInfo);
     }
 }

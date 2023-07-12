@@ -8,14 +8,17 @@ public class PlayerPrefsManager : IDataManager
     {
         if (PlayerPrefs.HasKey(key))
         {
-            return PlayerPrefs.GetString(key);
+            string value = PlayerPrefs.GetString(key);
+            string decryptionValue = ServiceLocator.Instance.Get<DataAESEncryption>().DecryptString(value);
+            return decryptionValue;
         }
         return null;
     }
 
     public void WriteData(string key, string value)
     {
-        PlayerPrefs.SetString(key, value);
+        string encryptionValue = ServiceLocator.Instance.Get<DataAESEncryption>().EncryptString(value);
+        PlayerPrefs.SetString(key, encryptionValue);
         PlayerPrefs.Save();
     }
 

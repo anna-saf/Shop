@@ -34,7 +34,6 @@ public class ProductCardView : MonoBehaviour
 
     private void ProductCardViewModel_onBuyStateChange(object sender, bool e)
     {
-        Debug.Log("Зашел сюда, чтобы поменять активность объектов");
         isBuyViewState(e);
     }
 
@@ -45,7 +44,6 @@ public class ProductCardView : MonoBehaviour
 
     private void isBuyViewState(bool isbuy)
     {
-        Debug.Log("Меняю активность на "+isbuy.ToString());
         notBuyView.gameObject.SetActive(!isbuy);
         currencyButtonsView.gameObject.SetActive(!isbuy);
         alreadyBuyView.gameObject.SetActive(isbuy);

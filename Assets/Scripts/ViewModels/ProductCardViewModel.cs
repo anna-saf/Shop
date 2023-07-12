@@ -29,9 +29,9 @@ public class ProductCardViewModel
 
     public void Init()
     {
-        //PlayerPrefs.DeleteAll();
-        //ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ShopModel.Instance.CurrencyList[0], 50);
-        //ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ShopModel.Instance.CurrencyList[1], 30);
+        /*PlayerPrefs.DeleteAll();
+        ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ServiceLocator.Instance.Get<GameCurrencyManager>().CurrencyList[0], 50);
+        ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ServiceLocator.Instance.Get<GameCurrencyManager>().CurrencyList[1], 30);*/
 
         string productState = ServiceLocator.Instance.Get<IDataManager>().TryReadData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_STATE);
         string lastProductTime = ServiceLocator.Instance.Get<IDataManager>().TryReadData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_TIME);
@@ -42,9 +42,10 @@ public class ProductCardViewModel
         {
             lastProductTime = "0";
         }
-        CheckProductTime(Convert.ToInt64(lastProductTime));
 
         state = GetState(productState);
+
+        CheckProductTime(Convert.ToInt64(lastProductTime));
 
         if (state == ProductState.Buy)
         {
@@ -83,7 +84,7 @@ public class ProductCardViewModel
 
     private void CheckProductTime(long lastProductTime)
     {
-        if(lastProductTime != 0)
+        if(lastProductTime != 0 && state == ProductState.Buy)
         {
             long timeDiff = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - lastProductTime;
             TimeSeconds.Value = productTimeSecond - timeDiff;
@@ -108,8 +109,8 @@ public class ProductCardViewModel
     {
         while (TimeSeconds.Value > 0)
         {
-            TimeSeconds.Value -= DateTimeOffset.UtcNow.ToUnixTimeSeconds() - currentTime;
-            //Debug.Log(TimeSeconds.Value);
+            long diff = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - currentTime;
+            TimeSeconds.Value -= diff;
             currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             yield return new WaitForSeconds(1f);
         }
@@ -118,7 +119,7 @@ public class ProductCardViewModel
     public void PurchaseButtonPressed(CurrencyPrice currencyPriceInfo)
     {
         int currencyCount = ServiceLocator.Instance.Get<GameCurrencyManager>().GetCurrencyInfo(currencyPriceInfo.currency);
-        if (currencyCount > currencyPriceInfo.price )
+        if (currencyCount >= currencyPriceInfo.price )
         {
             if (state == ProductState.NotBuy) {
                 state = ProductState.Buy;
@@ -141,7 +142,7 @@ public class ProductCardViewModel
         if (productSO.timeMinutes > 0)
         {
             TimeSeconds.Subscribe(_ => CheckTimeEnd());
-            currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds() - 1;
+            currentTime = DateTimeOffset.UtcNow.ToUnixTimeSeconds()-1;
             timeUpdateCorountine = Timer();
             ServiceLocator.Instance.Get<CoroutineRunner>().RunCoroutine(timeUpdateCorountine);
         }

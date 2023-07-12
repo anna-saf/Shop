@@ -8,6 +8,7 @@ public class ServiceLocatorLoader : MonoBehaviour
     [SerializeField] private DeviceOrientationManager deviceOrientationManager;
     private IDataManager dataManager;
     private DataAESEncryption dataAESEncryption;
+    private WarningWindowViewModel warningWindowViewModel;
 
     private void Awake()
     {
@@ -24,6 +25,9 @@ public class ServiceLocatorLoader : MonoBehaviour
         ServiceLocator.Instance.Register<GameCurrencyManager>(gameCurrencyManager);
 
         ServiceLocator.Instance.Register<DeviceOrientationManager>(deviceOrientationManager);
+
+        warningWindowViewModel = new WarningWindowViewModel();
+        ServiceLocator.Instance.Register<WarningWindowViewModel>(warningWindowViewModel);
 
     }
 }

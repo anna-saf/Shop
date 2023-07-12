@@ -18,6 +18,7 @@ public class ProductsUI : MonoBehaviour
         if (e == Orientation.Horizontal)
         {
             rectTransform.pivot = new Vector2 (0, 0.5f);
+            rectTransform.localPosition = new Vector2(0, 0);
 
             productsGridLayoutGroup.cellSize = ShopModel.Instance.ProductCardHorizontalSize;
             productsGridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedRowCount;
@@ -26,6 +27,7 @@ public class ProductsUI : MonoBehaviour
         else
         {
             rectTransform.pivot = new Vector2(0.5f, 1);
+            rectTransform.localPosition = new Vector2(0, 0);
 
             productsGridLayoutGroup.cellSize = ShopModel.Instance.ProductCardVerticalSize;
             productsGridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;

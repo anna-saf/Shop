@@ -29,9 +29,6 @@ public class ProductCardViewModel
 
     public void Init()
     {
-        /*PlayerPrefs.DeleteAll();
-        ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ServiceLocator.Instance.Get<GameCurrencyManager>().CurrencyList[0], 50);
-        ServiceLocator.Instance.Get<GameCurrencyManager>().AddCurrency(ServiceLocator.Instance.Get<GameCurrencyManager>().CurrencyList[1], 30);*/
 
         string productState = ServiceLocator.Instance.Get<IDataManager>().TryReadData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_STATE);
         string lastProductTime = ServiceLocator.Instance.Get<IDataManager>().TryReadData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_TIME);
@@ -122,6 +119,7 @@ public class ProductCardViewModel
         if (currencyCount >= currencyPriceInfo.price )
         {
             if (state == ProductState.NotBuy) {
+                ServiceLocator.Instance.Get<WarningWindowViewModel>().HideMessage();
                 state = ProductState.Buy;
                 BuyStateUpdate();
                 ServiceLocator.Instance.Get<IDataManager>().WriteData(productSO.productName + ShopModel.PLAYER_PREFS_PRODUCT_TIME, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString());
@@ -131,8 +129,7 @@ public class ProductCardViewModel
         }
         else
         {
-            Debug.Log("недостаточно средств");
-            //Вывести окно, что недостаточно средств
+            ServiceLocator.Instance.Get<WarningWindowViewModel>().ShowMessage(ShopModel.Instance.CurrencyNotEnoughMessage);
         }
     }
 

@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 069b8202ea010a345b0f8f35c4ffcf8d, type: 3}
-  m_Name: HelmetWithoutTime
+  m_Name: Axe
   m_EditorClassIdentifier: 
-  productName: HelmetWithoutTime
-  productImage: {fileID: 2054086570, guid: 4be2b2d44d250ee42b80cd311728b13a, type: 3}
+  productName: Axe
+  productImage: {fileID: -160444309, guid: 4be2b2d44d250ee42b80cd311728b13a, type: 3}
   timeMinutes: 0
   currencyPrice:
   - currency: {fileID: 11400000, guid: ee8c8669ab30bac47978ea8c07002cbf, type: 2}
-    price: 6
+    price: 10
+  - currency: {fileID: 11400000, guid: fe1299f8a56ec2342a79fd8c0c7e12cb, type: 2}
+    price: 5

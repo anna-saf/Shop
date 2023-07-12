@@ -19,17 +19,17 @@ public class ProductsUI : MonoBehaviour
         {
             rectTransform.pivot = new Vector2 (0, 0.5f);
 
-            productsGridLayoutGroup.cellSize = new Vector2 (ShopModel.ProductCardHorizontalX, ShopModel.ProductCardHorizontalY);
+            productsGridLayoutGroup.cellSize = ShopModel.Instance.ProductCardHorizontalSize;
             productsGridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedRowCount;
-            productsGridLayoutGroup.constraintCount = 1;
+            productsGridLayoutGroup.constraintCount = ShopModel.Instance.ProductCardHorizontalConstrainCount;
         }
         else
         {
             rectTransform.pivot = new Vector2(0.5f, 1);
 
-            productsGridLayoutGroup.cellSize = new Vector2(ShopModel.ProductCardVerticalX, ShopModel.ProductCardVerticalY);
+            productsGridLayoutGroup.cellSize = ShopModel.Instance.ProductCardVerticalSize;
             productsGridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
-            productsGridLayoutGroup.constraintCount = 2;
+            productsGridLayoutGroup.constraintCount = ShopModel.Instance.ProductCardVerticalConstrainCount;
         }
     }
 }
